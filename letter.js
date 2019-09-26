@@ -15,4 +15,4 @@ let Letter = function(value) {
 
 
 
-module.exports = Letter
+module.exports = Letter         //exporting the constructor function so word.js has access to this functionality
