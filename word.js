@@ -2,18 +2,18 @@ const Letter = require('./letter');         //getting the constructor function f
 
 let Word = function (mysteryWord) {
     this.mysteryWord = mysteryWord          //mysteryWord contains the array of corresponding Letter objects for each Word object
-    this.guesses = function (X) {
+    this.guesses = function (incomingArgument) {
         for(var i = 0; i < mysteryWord.length; i++){
-            this.mysteryWord[i].checkedIfGuessed(X)  //for each object in the mysteryWord array, it runs the checkedIfGuessed method in the Letter object and updates the checked boolean if necessary.
+            this.mysteryWord[i].checkedIfGuessed(incomingArgument)  //for each object in the mysteryWord array, it runs the checkedIfGuessed method in the Letter object and updates the checked boolean if necessary.
         }
     }
     this.stringedWord = function () {
         var word = [];
         for (var i = 0; i < this.mysteryWord.length; i++) {
-            word.push(this.mysteryWord[i].returnValue(this.mysteryWord[i])) //for each object in the mysteryWord array, the object is running the returnValue method and returning a character based on 
+            word.push(this.mysteryWord[i].returnValue()) //for each object in the mysteryWord array, the object is running the returnValue method and returning a character based on 
                                                                                 //whether the letter has been guessed yet or not
         }
-        console.log(word.join(" "))
+        return word.join(" ")
     }
 }
 
@@ -42,4 +42,6 @@ var test = (X) =>{
     apple.stringedWord()
 }    
 test(guess)  
+
+module.exports = Word;
 
