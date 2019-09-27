@@ -1,8 +1,9 @@
 const Word = require('./word');
 const Letter = require('./letter')
-const prompt = require('prompt')
+const inquirer = require('inquirer')
 
 let wordArr = []
+let userGuess = null
 let word1 = new Word([
     new Letter("a"),
     new Letter("p"),
@@ -52,62 +53,66 @@ let cli = () => {
 
     let reset = () => {
         incorrectGuessesLeft = 9;
-        for (var i = 0; i < currentWord.length; i++) {
-            currentWord[i].guessed = false;
+        for (var i = 0; i < currentWord.mysteryWord.length; i++) {
+            currentWord.mysteryWord[i].guessed = false;
         }
         currentWord = wordArr[(Math.floor((Math.random() * 3)))]
-        userGuesses()
+        cli()
     }
 
 
-    prompt.start();
 
-    let userGuesses = () => {
+    let logic = () => {
 
-
-        if (incorrectGuessesLeft > 0 && currentWord.stringedWord().includes("_")) {    //if there are still guesses left and the word doesn't contain any underscores
-            prompt.get(['guess'], (err, result) => {
-                let userGuess = result.guess;
-                console.log(guessRightOrWrong(userGuess))                                    //get a prompt
-
-                if (guessRightOrWrong(userGuess)) {
-                    currentWord.guesses(userGuess)
-                    console.log(`
+        if (incorrectGuessesLeft > 0 && currentWord.stringedWord().includes("_")) {    //if there are still guesses left and the word doesn't contain any underscore
+            inquirer
+                .prompt([                                                       //get a prompt
+                    {
+                        name: "guess",
+                        message: "Guess a letter that might be in the word"
+                    }]).then(function (response) {
+                        userGuess = response.guess;
+                        if (guessRightOrWrong(userGuess)) {
+                            currentWord.guesses(userGuess)
+                            console.log(`
 Correct! You have ${incorrectGuessesLeft} incorrect guesses left! 
 ${currentWord.stringedWord()}
-
-`);
-                    userGuesses()
-                    return;
-
-                } else if (!guessRightOrWrong(userGuess)) {
-                    incorrectGuessesLeft--
-                    if (incorrectGuessesLeft > 0) {
-                        console.log(
-                            `
+        
+        `);
+        logic();
+        return;
+                        } else if (!guessRightOrWrong(userGuess)) {
+                            incorrectGuessesLeft--
+                            if (incorrectGuessesLeft > 0) {
+                                console.log(
+                                    `
 Incorrect! You have ${incorrectGuessesLeft} incorrect guesses left! 
 ${currentWord.stringedWord()}
+        
+        `) 
+logic()
+return;
+                            } else if (incorrectGuessesLeft === 0) {
+                                console.log(`Oops! You lost this round, how about you try again.`)
+                                reset()
+                                return;
+                            }
+                        } return;
 
-`)
-                        userGuesses()
-                        return;
-                    } else if (incorrectGuessesLeft === 0) {
-                        console.log(`Oops! You lost this round, how about you try again.`)
-                        reset()
-                        return;
-                    }
-                }
-
-            })
+                    })
+            //console.log(guessRightOrWrong(userGuess))                                    
         } else if (incorrectGuessesLeft > 0 && !currentWord.stringedWord().includes("_")) {
             console.log(`Congratulations! You correctly guessed ${currentWord.stringedWord().replace(/ /g, "")}`)
             reset()
             return;
         }
+        return;
+
     }
 
-    userGuesses()
-
+console.log(currentWord.mysteryWord[0].guessed)
+     logic()
+      return;
 }
 
 cli()
