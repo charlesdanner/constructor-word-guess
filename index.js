@@ -40,7 +40,7 @@ let container = () => {      //container function to keep all variables off glob
     wordArr.push(word3);
 
     let cli = () => {
-        let userGuess = null                //global variables that get populated throughout the course of the application
+        let userGuess = null                //variables that get populated throughout the course of the application and need to be changed when the user wins or loses
         let incorrectGuessesLeft = 9;
         let currentWord = wordArr[(Math.floor((Math.random() * 3)))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
 
@@ -68,37 +68,45 @@ let container = () => {      //container function to keep all variables off glob
                         name: "guess",
                         message: ` ${currentWord.stringedWord()}
 
-Guess a letter that might be in the word`
-                    }]).then(function (response) {
-                        userGuess = response.guess.toLowerCase();   //saves user input as userGuess variable, but makes it lower case if caps lock is on
-                        if (guessRightOrWrong(userGuess)) {     //if the guess is a letter that is contained w/in the objective
-                            currentWord.guesses(userGuess)      //update the letters letter's guessed value and console log that they got the correct answer.
-                            console.log(`-------------------------------------------------------
+Guess a single letter that might be in the word`,
+                        validate: function (value) {            //validation checking the user input for the desired input parameters.
+                            var letters = /^[A-Za-z]+$/;
+                            if (value.match(letters) && value.length === 1) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                ]).then(function (response) {
+                    userGuess = response.guess.toLowerCase();   //saves user input as userGuess variable, but makes it lower case if caps lock is on
+                    if (guessRightOrWrong(userGuess)) {     //if the guess is a letter that is contained w/in the objective
+                        currentWord.guesses(userGuess)      //update the letters letter's guessed value and console log that they got the correct answer.
+                        console.log(`-------------------------------------------------------
 
 Correct! You have ${incorrectGuessesLeft} incorrect guesses left! 
       
 -------------------------------------------------------        `);
-                            logic();                    //run the logic flow over again after a correct answer
-                            return;
-                        } else if (!guessRightOrWrong(userGuess)) {         //if the guessed letter is not w/in the objective word decrease the number of guesses they have left
-                            incorrectGuessesLeft--
-                            if (incorrectGuessesLeft > 0) {             //consolelog that they were incorrect and rerun the logic flow
-                                console.log(
-                                    `-------------------------------------------------------
+                        logic();                    //run the logic flow over again after a correct answer
+                        return;
+                    } else if (!guessRightOrWrong(userGuess)) {         //if the guessed letter is not w/in the objective word decrease the number of guesses they have left
+                        incorrectGuessesLeft--
+                        if (incorrectGuessesLeft > 0) {             //consolelog that they were incorrect and rerun the logic flow
+                            console.log(
+                                `-------------------------------------------------------
 
 Incorrect! You have ${incorrectGuessesLeft} incorrect guesses left! 
         
 -------------------------------------------------------        `)
-                                logic()
-                                return;
-                            } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
-                                losses++
-                                console.log(`Oops! You lost this round, how about you try again!            Current Record: ${wins} - ${losses}`)
-                                reset()
-                                return;
-                            }
-                        } return;
-                    })
+                            logic()
+                            return;
+                        } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
+                            losses++
+                            console.log(`Oops! You lost this round, how about you try again!            Current Record: ${wins} - ${losses}`)
+                            reset()
+                            return;
+                        }
+                    } return;
+                })
         }
 
         let logic = () => {         //the actual flow of the game goes in this function
