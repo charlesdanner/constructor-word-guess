@@ -1,47 +1,43 @@
+let container = () =>{      //container function to keep all variables off global scope
+const Word = require('./word');
+const Letter = require('./letter')              //requiring local as well as outside resources to make everything work.
+const inquirer = require('inquirer')
+
+let wordArr = []
+let word1 = new Word([
+    new Letter("a"),
+    new Letter("p"),
+    new Letter("p"),
+    new Letter("l"),                    //words being constructed. Each letter is a Letter object
+    new Letter("e")
+]);
+wordArr.push(word1)
+
+let word2 = new Word([
+    new Letter("m"),
+    new Letter("o"),
+    new Letter("n"),
+    new Letter("k"),
+    new Letter("e"),
+    new Letter("y"),
+    new Letter("s")
+]);
+wordArr.push(word2)
+
+let word3 = new Word([
+    new Letter("a"),
+    new Letter("l"),
+    new Letter("l"),
+    new Letter("i"),
+    new Letter("g"),
+    new Letter("a"),
+    new Letter("t"),
+    new Letter("o"),
+    new Letter("r")
+]);
+wordArr.push(word3)
+
 let cli = () => {
-    const Word = require('./word');
-    const Letter = require('./letter')              //requiring local as well as outside resources to make everything work.
-    const inquirer = require('inquirer')
-
-
-
- 
-    let wordArr = []
-    let word1 = new Word([
-        new Letter("a"),
-        new Letter("p"),
-        new Letter("p"),
-        new Letter("l"),                    //words being constructed. Each letter is a Letter object
-        new Letter("e")
-    ]);
-    wordArr.push(word1)
-
-    let word2 = new Word([
-        new Letter("m"),
-        new Letter("o"),
-        new Letter("n"),
-        new Letter("k"),
-        new Letter("e"),
-        new Letter("y"),
-        new Letter("s")
-    ]);
-    wordArr.push(word2)
-
-    let word3 = new Word([
-        new Letter("a"),
-        new Letter("l"),
-        new Letter("l"),
-        new Letter("i"),
-        new Letter("g"),
-        new Letter("a"),
-        new Letter("t"),
-        new Letter("o"),
-        new Letter("r")
-    ]);
-    wordArr.push(word3)
-
-
-    
     let userGuess = null                //global variables that get populated throughout the course of the application
     let incorrectGuessesLeft = 9;
     let currentWord = wordArr[(Math.floor((Math.random() * 3)))]            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
@@ -74,22 +70,24 @@ let cli = () => {
                         userGuess = response.guess;
                         if (guessRightOrWrong(userGuess)) {     //if the guess is a letter that is contained w/in the objective
                             currentWord.guesses(userGuess)      //update the letters letter's guessed value and console log that they got the correct answer.
-                            console.log(`
+                            console.log(`-------------------------------------------------------
+                            
 Correct! You have ${incorrectGuessesLeft} incorrect guesses left! 
 ${currentWord.stringedWord()}
       
-        `);
+-------------------------------------------------------        `);
                             logic();                    //run the logic flow over again after a correct answer
                             return;
                         } else if (!guessRightOrWrong(userGuess)) {         //if the guessed letter is not w/in the objective word decrease the number of guesses they have left
                             incorrectGuessesLeft--
                             if (incorrectGuessesLeft > 0) {             //consolelog that they were incorrect and rerun the logic flow
                                 console.log(
-                                    `
+                                    `-------------------------------------------------------
+
 Incorrect! You have ${incorrectGuessesLeft} incorrect guesses left! 
 ${currentWord.stringedWord()}
         
-        `)
+-------------------------------------------------------        `)
                                 logic()
                                 return;
                             } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
@@ -111,5 +109,5 @@ ${currentWord.stringedWord()}
     return;
 }
 cli()               //initial app start
-
-
+}
+container()
