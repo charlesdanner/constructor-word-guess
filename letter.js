@@ -5,7 +5,7 @@ let Letter = function(value) {
 
 Letter.prototype.returnValue = function () {
     if (this.guessed === true) {          //when this is called returns the value of the letter in string form if the letter has been guessed or an underscore if it hasn't been guessed
-        return this.value;
+        return this.value.toUpperCase()
     } else return "_"
 }
 
