@@ -1,7 +1,8 @@
-let container = () => {      //container function to keep all variables off global scope
+let container = () => {                                 //container function to keep all variables off global scope
     const Word = require('./word');
     const Letter = require('./letter');              //requiring local as well as outside resources to make everything work.
     const inquirer = require('inquirer');
+    const colors = require('colors');
 
     let wins = 0;
     let losses = 0;
@@ -10,7 +11,7 @@ let container = () => {      //container function to keep all variables off glob
         new Letter("a"),
         new Letter("p"),
         new Letter("p"),
-        new Letter("l"),                    //words being constructed. Each letter is a Letter object
+        new Letter("l"),                            //words being constructed. Each letter is a Letter object
         new Letter("e")
     ]);
     wordArr.push(word1);
@@ -55,9 +56,15 @@ let container = () => {      //container function to keep all variables off glob
         }
 
         let reset = () => {
-            for (var i = 0; i < currentWord.mysteryWord.length; i++) {              //function that resets the game by resetting all boolean values measuring whether the letter has been guessed or not to false
-                currentWord.mysteryWord[i].guessed = false;                         //makes the game play again
+            for (var i = 0; i < currentWord.mysteryWord.length; i++) {
+                currentWord.mysteryWord[i].guessed = false;
             }
+            // let turnValuesFalse = () => {
+            //     this.guessed = false; 
+            // }
+            // currentWord.mysteryWord.forEach(turnValuesFalse)             
+            
+           
             cli()
         }
 
@@ -83,7 +90,7 @@ Guess a single letter that might be in the word`,
                         currentWord.guesses(userGuess)      //update the letters letter's guessed value and console log that they got the correct answer.
                         console.log(`-------------------------------------------------------
 
-Correct! You have ${incorrectGuessesLeft} incorrect guesses left! 
+` + "Correct!".green + ` You have ` + `${incorrectGuessesLeft}`.yellow +  ` incorrect guesses left! 
       
 -------------------------------------------------------        `);
                         logic();                    //run the logic flow over again after a correct answer
@@ -94,14 +101,14 @@ Correct! You have ${incorrectGuessesLeft} incorrect guesses left!
                             console.log(
                                 `-------------------------------------------------------
 
-Incorrect! You have ${incorrectGuessesLeft} incorrect guesses left! 
+` + `Incorrect!`.red +  ` You have ` + `${incorrectGuessesLeft}`.yellow + ` incorrect guesses left! 
         
 -------------------------------------------------------        `)
                             logic()
                             return;
                         } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
                             losses++
-                            console.log(`Oops! You lost this round, how about you try again!            Current Record: ${wins} - ${losses}`)
+                            console.log(`Oops! You lost this round, how about you try again!` + `             Current Record: ``${wins}`.green `  - ``${losses}`.red)
                             reset()
                             return;
                         }
@@ -117,7 +124,7 @@ Incorrect! You have ${incorrectGuessesLeft} incorrect guesses left!
 
             } else if (!currentWord.stringedWord().includes("_")) {         //if when the initial logic flow starts the word's letters have all been guessed, the user wins and the game resets.
                 wins++
-                console.log(`Congratulations! You correctly guessed "${currentWord.stringedWord().replace(/ /g, "")}"            Current Record: ${wins} - ${losses}`)
+                console.log(`Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + `  - ` + `${losses}`.red)
                 reset();
                 return;
             }

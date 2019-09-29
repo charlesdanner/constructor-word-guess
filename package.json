@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/charlesdanner/constructor-word-guess#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "inquirer": "^7.0.0"
   }
 }

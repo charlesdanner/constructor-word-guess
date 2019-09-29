@@ -8,6 +8,7 @@ Word.prototype.guesses = function (incomingArgument) {
     for (var i = 0; i < this.mysteryWord.length; i++) {
         this.mysteryWord[i].checkedIfGuessed(incomingArgument)  //for each object in the mysteryWord array, it runs the checkedIfGuessed method in the Letter object and updates the checked boolean if necessary.
     }
+    //this.mysteryWord.forEach(checkedIfGuessed(incomingArgument))
 }
 
 Word.prototype.stringedWord = function () {
@@ -20,4 +21,3 @@ Word.prototype.stringedWord = function () {
 }
 
 module.exports = Word;
-
