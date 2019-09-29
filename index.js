@@ -104,7 +104,11 @@ Guess a single letter that might be in the word`,
                             return;
                         } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
                             losses++
-                            console.log(`Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red)
+                            console.log(`-------------------------------------------------------
+                            ` + ` 
+                            Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
+
+-------------------------------------------------------`)
                             reset()
                             return;
                         }
@@ -120,7 +124,11 @@ Guess a single letter that might be in the word`,
 
             } else if (!currentWord.stringedWord().includes("_")) {         //if when the initial logic flow starts the word's letters have all been guessed, the user wins and the game resets.
                 wins++
-                console.log(`Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red)
+                console.log(`-------------------------------------------------------
+                ` + ` 
+                Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
+
+-------------------------------------------------------                `)
                 reset();
                 return;
             }
