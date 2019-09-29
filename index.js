@@ -29,10 +29,11 @@ let container = () => {
             cli();               
         })
     }
+
     let cli = () => {       //function that controls the gameplay
         let userGuess = null                //variables that get populated throughout the course of the application and need to be changed when the user wins or loses
-        let incorrectGuessesLeft = 9;
-        let currentWord = wordArr[(Math.floor((Math.random() * 6)))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
+        let incorrectGuessesLeft = 6;
+        let currentWord = wordArr[(Math.floor((Math.random() * (wordArr.length))))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
         let guessesMade = [];
 
         let guessRightOrWrong = (userGuess) => {
@@ -94,7 +95,7 @@ Guess a single letter that might be in the word`.yellow,
                             losses++
                             console.log(`-------------------------------------------------------
                             ` + ` 
-                            Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
+     Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
 
 -------------------------------------------------------`)
                             reset()
@@ -114,7 +115,7 @@ Guess a single letter that might be in the word`.yellow,
                 wins++
                 console.log(`-------------------------------------------------------
                 ` + ` 
-                Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
+    Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
 
 -------------------------------------------------------                `)
                 reset();
@@ -125,6 +126,7 @@ Guess a single letter that might be in the word`.yellow,
         logic();        //initial start up of logic flow.
         return;
      }
+
      initializeGame()
  }
 container();
