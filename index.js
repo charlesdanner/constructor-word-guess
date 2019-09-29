@@ -3,6 +3,7 @@ let container = () => {                                 //container function to 
     const Letter = require('./letter');              //requiring local as well as outside resources to make everything work.
     const inquirer = require('inquirer');
     const colors = require('colors');
+    
 
     let wins = 0;
     let losses = 0;
@@ -44,11 +45,11 @@ let container = () => {                                 //container function to 
         let userGuess = null                //variables that get populated throughout the course of the application and need to be changed when the user wins or loses
         let incorrectGuessesLeft = 9;
         let currentWord = wordArr[(Math.floor((Math.random() * 3)))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
-
+        let guessesMade = [];
 
         let guessRightOrWrong = (userGuess) => {
-            var rightOrWrong = false;
-            for (var i = 0; i < currentWord.mysteryWord.length; i++) {                          //function checking to make sure the result matches one of the letters in the word 
+            let rightOrWrong = false;
+            for (let i = 0; i < currentWord.mysteryWord.length; i++) {                          //function checking to make sure the result matches one of the letters in the word 
                 if (userGuess === currentWord.mysteryWord[i].value) {
                     rightOrWrong = true
                 }
@@ -56,15 +57,9 @@ let container = () => {                                 //container function to 
         }
 
         let reset = () => {
-            for (var i = 0; i < currentWord.mysteryWord.length; i++) {
-                currentWord.mysteryWord[i].guessed = false;
-            }
-            // let turnValuesFalse = () => {
-            //     this.guessed = false; 
-            // }
-            // currentWord.mysteryWord.forEach(turnValuesFalse)             
-            
-           
+            for (let letter in currentWord.mysteryWord) {  
+                currentWord.mysteryWord[letter].guessed = false
+            }           
             cli()
         }
 
@@ -73,12 +68,12 @@ let container = () => {                                 //container function to 
                 .prompt([
                     {
                         name: "guess",
-                        message: ` ${currentWord.stringedWord()}
+                        message: ` ${currentWord.stringedWord()}                            Previous Guesses: ${guessesMade.join(", ")}
 
 Guess a single letter that might be in the word`,
                         validate: function (value) {            //validation checking the user input for the desired input parameters.
-                            var letters = /^[A-Za-z]+$/;
-                            if (value.match(letters) && value.length === 1) {
+                            let letters = /^[A-Za-z]+$/;
+                            if (value.match(letters) && (value.length === 1) && (!guessesMade.includes(value.toUpperCase()))) {
                                 return true;
                             }
                             return false;
@@ -86,6 +81,7 @@ Guess a single letter that might be in the word`,
                     }
                 ]).then(function (response) {
                     userGuess = response.guess.toLowerCase();   //saves user input as userGuess variable, but makes it lower case if caps lock is on
+                    guessesMade.push(userGuess.toUpperCase())
                     if (guessRightOrWrong(userGuess)) {     //if the guess is a letter that is contained w/in the objective
                         currentWord.guesses(userGuess)      //update the letters letter's guessed value and console log that they got the correct answer.
                         console.log(`-------------------------------------------------------
@@ -108,7 +104,7 @@ Guess a single letter that might be in the word`,
                             return;
                         } else if (incorrectGuessesLeft === 0) {        //after an incorrect answer is made if the guesses left total reaches zero the game tells the user they've lost and resets
                             losses++
-                            console.log(`Oops! You lost this round, how about you try again!` + `             Current Record: ``${wins}`.green `  - ``${losses}`.red)
+                            console.log(`Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red)
                             reset()
                             return;
                         }
@@ -124,7 +120,7 @@ Guess a single letter that might be in the word`,
 
             } else if (!currentWord.stringedWord().includes("_")) {         //if when the initial logic flow starts the word's letters have all been guessed, the user wins and the game resets.
                 wins++
-                console.log(`Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + `  - ` + `${losses}`.red)
+                console.log(`Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red)
                 reset();
                 return;
             }
