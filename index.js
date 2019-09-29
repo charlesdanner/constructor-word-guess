@@ -68,9 +68,9 @@ let container = () => {                                 //container function to 
                 .prompt([
                     {
                         name: "guess",
-                        message: ` ${currentWord.stringedWord()}                            Previous Guesses: ${guessesMade.join(", ")}
+                        message: `${currentWord.stringedWord()}`.green + `                           Previous Guesses: ${guessesMade.join(", ")}
 
-Guess a single letter that might be in the word`,
+Guess a single letter that might be in the word`.yellow,
                         validate: function (value) {            //validation checking the user input for the desired input parameters.
                             let letters = /^[A-Za-z]+$/;
                             if (value.match(letters) && (value.length === 1) && (!guessesMade.includes(value.toUpperCase()))) {
