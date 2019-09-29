@@ -1,50 +1,38 @@
-let container = () => {                                 //container function to keep all variables off global scope
+let container = () => {
+    const fs = require('fs')                                 //container function to keep all variables off global scope
     const Word = require('./word');
     const Letter = require('./letter');              //requiring local as well as outside resources to make everything work.
     const inquirer = require('inquirer');
     const colors = require('colors');
     
-
     let wins = 0;
-    let losses = 0;
-    let wordArr = [];
-    let word1 = new Word([
-        new Letter("a"),
-        new Letter("p"),
-        new Letter("p"),
-        new Letter("l"),                            //words being constructed. Each letter is a Letter object
-        new Letter("e")
-    ]);
-    wordArr.push(word1);
+    let losses = 0;         //win and loss variables get updated after each time the user either wins or loses
+    let wordArr = []        //this gets populated only once with the words in the words.txt file becoming Word objects with Letter objects inside an array within the Word object.
 
-    let word2 = new Word([
-        new Letter("m"),
-        new Letter("o"),
-        new Letter("n"),
-        new Letter("k"),
-        new Letter("e"),
-        new Letter("y"),
-        new Letter("s")
-    ]);
-    wordArr.push(word2);
-
-    let word3 = new Word([
-        new Letter("a"),
-        new Letter("l"),
-        new Letter("l"),
-        new Letter("i"),
-        new Letter("g"),
-        new Letter("a"),
-        new Letter("t"),
-        new Letter("o"),
-        new Letter("r")
-    ]);
-    wordArr.push(word3);
-
-    let cli = () => {
+    let initializeGame = () => {    //function that populates the array of words the computer can choose from and initializes the game afterwards.
+        fs.readFile("words.txt", "utf-8", (error, data) =>{
+            wordArr;
+            
+            if(error) {
+                console.log(error)          //if there's an error, console log it
+            } else{
+                let dataArr = []                //creates an empty array that gets populated by the different animals in the words.txt file by splitting them from the comma.
+                dataArr = data.split(",")
+                for(let i = 0; i < dataArr.length; i++){    //for each animal in the data array create a new Word object
+                    wordArr[i] = new Word ([])
+                    for(let j = 0; j < dataArr[i].length; j++){     //for each letter in the animal string, create a Letter object and push it into the corresponding word object in the word array
+                        let letter = new Letter(dataArr[i][j])
+                        wordArr[i].mysteryWord.push(letter)         //after the Letter and Word objects have been successfully pushed into the correct spot, start the game
+                    }
+                } 
+            }
+            cli();               
+        })
+    }
+    let cli = () => {       //function that controls the gameplay
         let userGuess = null                //variables that get populated throughout the course of the application and need to be changed when the user wins or loses
         let incorrectGuessesLeft = 9;
-        let currentWord = wordArr[(Math.floor((Math.random() * 3)))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
+        let currentWord = wordArr[(Math.floor((Math.random() * 6)))];            //assigns the number of incorrect guesses users get and randomly chooses one of the words to be the objective.
         let guessesMade = [];
 
         let guessRightOrWrong = (userGuess) => {
@@ -56,9 +44,9 @@ let container = () => {                                 //container function to 
             } return rightOrWrong
         }
 
-        let reset = () => {
+        let reset = () => {         //when a user has won or lost, this game resets the values of the current Word object's Letter objects in the array to have a value of false for guessed
             for (let letter in currentWord.mysteryWord) {  
-                currentWord.mysteryWord[letter].guessed = false
+                currentWord.mysteryWord[letter].guessed = false     //also reruns the function that runs the game's logic
             }           
             cli()
         }
@@ -136,7 +124,7 @@ Guess a single letter that might be in the word`.yellow,
         }
         logic();        //initial start up of logic flow.
         return;
-    }
-    cli();               //initial app start
-}
+     }
+     initializeGame()
+ }
 container();
