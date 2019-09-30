@@ -2,7 +2,7 @@
 
 ## Description
 
-This application is run through the terminal by utilizing javascript and node.js. The objective is for users to play a simple game of "Hang Man" against the computer. The computer a word from a list in the words.txt file and the user needs to guess letters one at a time until they either complete the word or run out of guesses. The game uses several different node modules and object constructors in order to achieve the goal. There are much simpler ways to build a word guess game. For a more simple version you can look at the wordguessgame repository on my GitHub repository list; however, this was mainly created as a learning exercise to become more adept at constructing and utilizing objects.
+This application is run through the terminal by utilizing javascript and node.js. The objective is for users to play a simple game of "Hang Man" against the computer. The computer selects a word from a list in the words.txt file and the user needs to guess letters one at a time until they either complete the word or run out of guesses. The game uses several different node modules and object constructors in order to achieve the goal. There are much simpler ways to build a word guess game. For a more simple version you can look at the wordguessgame repository on my GitHub repository list; however, this was mainly created as a learning exercise to become more adept at constructing and utilizing objects.
 
 ## Prerequisites
 
