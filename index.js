@@ -7,7 +7,7 @@ let container = () => {
     
     let wins = 0;
     let losses = 0;         //win and loss variables get updated after each time the user either wins or loses
-    let wordArr = []        //this gets populated only once with the words in the words.txt file becoming Word objects with Letter objects inside an array within the Word object.
+    let wordArr = [];        //this gets populated only once with the words in the words.txt file becoming Word objects with Letter objects inside an array within the Word object.
 
     let initializeGame = () => {    //function that populates the array of words the computer can choose from and initializes the game afterwards.
         fs.readFile("words.txt", "utf-8", (error, data) =>{
@@ -39,18 +39,18 @@ let container = () => {
 
             let guessRightOrWrong = (userGuess) => {
                 let rightOrWrong = false;
-                for (let i = 0; i < currentWord.mysteryWord.length; i++) {                          //function checking to make sure the result matches one of the letters in the word 
+                for (let i = 0; i < currentWord.mysteryWord.length; i++) {        //function checking to make sure the result matches one of the letters in the word 
                     if (userGuess === currentWord.mysteryWord[i].value) {
-                        rightOrWrong = true
+                        rightOrWrong = true;
                     }
-                } return rightOrWrong
+                } return rightOrWrong;
             }
     
             let reset = () => {         //when a user has won or lost, this game resets the values of the current Word object's Letter objects in the array to have a value of false for guessed
                 for (let letter in currentWord.mysteryWord) {  
-                    currentWord.mysteryWord[letter].guessed = false     //also reruns the function that runs the game's logic
+                    currentWord.mysteryWord[letter].guessed = false;     //also reruns the function that runs the game's logic
                 }           
-                cli()
+                cli();
             }
     
             let userGuessAndCheck = () => {
@@ -99,7 +99,7 @@ let container = () => {
          Oops! You lost this round, how about you try again!`.america + `             Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
     
     -------------------------------------------------------`)
-                                reset()
+                                reset();
                                 return;
                             }
                         } return;
@@ -114,7 +114,7 @@ let container = () => {
                 wins++
                 console.log(`-------------------------------------------------------
                 ` + ` 
-    Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord().replace(/ /g, "")}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
+    Congratulations! You correctly guessed `.rainbow + `"` + `${currentWord.stringedWord()}`.brightGreen + `"            Current Record: ` + `${wins}`.green + ` - ` + `${losses}`.red + `
 
 -------------------------------------------------------                `)
                 reset();
@@ -126,6 +126,6 @@ let container = () => {
         return;
      }
 
-     initializeGame()
+     initializeGame();
  }
 container();

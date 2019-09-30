@@ -1,1 +1,1 @@
-alligator,mongoose,rabbit,squirrel,giraffe,hippopotamus
+angry alligator,fast mongoose,jack rabbit,funky squirrel,tall giraffe,fat hippopotamus
