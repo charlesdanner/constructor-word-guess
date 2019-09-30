@@ -33,4 +33,4 @@ The game's logic is initially split in half. Either the user has letters in the 
 
 Since this application runs in the terminal and requires the user to download a couple different node modules, a working version can't be linked to; however, below is a link to a screen recording of the application working.
 
-https://github.com/charlesdanner/constructor-word-guess/blob/master/recording/screen-recording.wmv
+https://github.com/charlesdanner/constructor-word-guess/raw/master/recording/screen-recording.wmv
